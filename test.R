@@ -352,14 +352,136 @@ vect["bar"]
 vect[c("foo", "bar")]
 
 #------------------ 7: Matrices and Data Frames
+# In this lesson, we'll cover matrices and data frames. Both represent 'rectangular' data types, 
+# meaning that they are used to store tabular data, with rows and columns.
+# Let's create a vector containing the numbers 1 through 20. Store the result in a variable called my_vector.
+my_vector <- 1:20
+my_vector
 
+# The dim() function tells us the 'dimensions' of an object.
+dim(my_vector)
+# Since my_vector is a vector, it doesn't have a `dim` attribute (so it's just NULL), but we | can find its length using the length() function
+length(my_vector)
 
+# what happens if we give my_vector a `dim` attribute?
+dim(my_vector) <- c(4, 5)
+# In this case, we assigned the value c(4, 5) to the `dim` attribute of my_vector. We just gave my_vector 4 rows and 5 columns.
+# Now it's a matrix.
 
+#  Now confirm that we've set the `dim` attribute correctly.
+dim(my_vector)
+OR
+attributes(my_vector)
+# View the contents of my_vector
+my_vector
 
+# Now, let's confirm it's actually a matrix by using the class() function.
+class(my_vector)
 
+# We should store it in a new variable that helps us remember what it is.
+my_matrix <- my_vector
 
+# ?matrix
+# matrix(data = NA, nrow = 1, ncol = 1, byrow = FALSE, dimnames = NULL)
 
+# how to create a matrix containing the samenumbers (1-20) and dimensions (4 rows, 5 columns) by calling the matrix() function. 
+# Store the result in a variable called my_matrix2.
+my_matrix2 <- matrix(1:20, 4, 5)
 
+# let's confirm that my_matrix and my_matrix2 are actually identical.
+identical(my_matrix, my_matrix2)
+
+# Let's start by creating a character vector containing the names of our patients -- Bill, Gina, Kelly, and Sean. 
+# Remember that double quotes tell R that something is a character string. Store the result in a variable called patients.
+patients <- c("Bill", "Gina", "Kelly", "Sean")
+
+# Now we'll use the cbind() function to 'combine columns'.
+cbind(patients, my_matrix)
+# It appears that combining the character vector with our matrix of numbers caused everything to be enclosed in double quotes.
+# If you remember back to the beginning of this lesson, I told you that matrices can only contain ONE class of data. Therefore,
+# when we tried to combine a character vector with a numeric matrix, R was forced to 'coerce' the numbers to characters, hence
+# the double quotes.
+
+# how to include the names of our patients in the table without destroying the integrity of our numeric data. Try the following
+my_data <- data.frame(patients, my_matrix)
+my_data
+# It looks like the data.frame() function allowed us to store our character vector of names right alongside our matrix of numbers.
+
+# Behind the scenes, the data.frame() function takes any number of arguments and returns a single object of class `data.frame` 
+# that is composed of the original objects. Let's confirm this by calling the class() function on our newly created data frame.
+class(my_data)
+
+# let's solve a problem by assigning names to the columns of our data frame so that we know what type of measurement each column represents.
+# Create a character vector called cnames that contains the following values (in order) -- "patient", "age", "weight",
+# "bp", "rating", "test".
+cnames <- c("patient","age","weight","bp","rating","test")
+
+# Now, use the colnames() function to set the `colnames` attribute for our data frame.
+colnames(my_data) <- cnames
+my_data
+
+#------------------ 8: Logic
+# This lesson is meant to be a short introduction to logical operations in R.
+
+# Use the equality operator below to find out if TRUE is equal to TRUE.
+TRUE == TRUE
+
+# Just like arithmetic, logical expressions can be grouped by parenthesis so that the entire expression (TRUE == TRUE) == TRUE evaluates to TRUE.
+(FALSE == TRUE) == FALSE
+
+# The equality operator can also be used to compare numbers.
+6 == 7
+
+# Write an expression to test whether 6 is less than 7
+6 < 7
+
+# Write an expression to test whether 10 is less than or equal to 10.
+10 <= 10
+
+# Which of the following evaluates to FALSE?
+# 1: 7 == 7
+# 2: 9 >= 10
+# 3: 0 > -36
+# 4: 6 < 8
+
+# | Which of the following evaluates to TRUE?
+# 1: 57 < 8
+# : -6 > -7
+# 3: 9 >= 10
+# 4: 7 == 9
+
+# Try an expression to see if 5 is not equal to 7.
+5 != 7 
+
+# Try using the NOT operator and the equals operator to find the opposite of whether 5 is equal to 7.
+!(5 == 7)
+
+#  Let's take a moment to review. The equals operator `==` tests whether two boolean values or numbers are equal, the not
+# equals operator `!=` tests whether two boolean values or numbers are unequal, and the NOT operator `!` negates logical
+# expressions so that TRUE expressions become FALSE and FALSE expressions become TRUE.
+
+# Which of the following evaluates to FALSE?
+# 1: 9 < 10
+# 2: !(0 >= -1)
+# 3: !FALSE
+# 4: 7 != 8
+
+# What do you think the following expression will evaluate to?: (TRUE != FALSE) == !(6 == 7)
+# 1: Can there be objective truth when programming?
+# 2: FALSE
+# 3: %>%
+# 4: TRUE
+
+# Try typing FALSE & FALSE to how it is evaluated.
+FALSE & FALSE
+
+# Type the expression TRUE & c(TRUE, FALSE, FALSE).
+TRUE &c(TRUE, FALSE, FALSE)
+# The left operand `TRUE` is recycled across every element in the vector of the right operand.
+
+# Now we'll type the same expression except we'll use the `&&` operator. The && version of AND works differently.
+TRUE && c(TRUE, FALSE, FALSE)
+# For ||, && and isTRUE, a length-one logical vector.
 
 
 
@@ -397,4 +519,21 @@ for(i in 1:25)
   sum <- sum + i^2
 sum
 
+# Q4) The cars dataset is available in base R. 
+# You can type cars to see it. Use the class() function to determine what type of object is cars.
+cars
+class(cars)
 
+# Q5) How many rows does the cars object have?
+nrow(cars)
+
+# Q6) What is the name of the second column of cars?
+names(cars)[2]
+
+# Q7) The simplest way to extract the columns of a matrix or data.frame is using [. For example you can access the second column with cars[,2].
+# What is the average distance traveled in this dataset?
+mean(cars[,2])
+
+# Q8) Familiarize yourself with the which() function. Which row of cars has a a distance of 85?
+which(cars[,2] == 85)
+  
